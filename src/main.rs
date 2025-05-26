@@ -1,11 +1,16 @@
 use coap_lite::{CoapRequest, Packet};
 
+use std::env;
 use std::net::Ipv6Addr;
 
 #[tokio::main]
 async fn main() -> std::io::Result<()> {
+    let args: Vec<String> = env::args().collect();
+
+    let mcastaddr = &args[1];
+
     let socket = tokio::net::UdpSocket::bind("[::]:5683").await?;
-    let mcast = Ipv6Addr::new(0xff05, 0, 0, 0, 0, 0, 0, 0x1234);
+    let mcast = mcastaddr.parse::<Ipv6Addr>().expect("Failed to parse ipv6 addr"); // Ipv6Addr::new(0xff05, 0, 0, 0, 0, 0, 0, 0x1234);
     socket.set_multicast_loop_v6(true).unwrap();
     socket
         .join_multicast_v6(&mcast, 0)
