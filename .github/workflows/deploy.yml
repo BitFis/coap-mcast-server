@@ -22,9 +22,13 @@ jobs:
             os: ubuntu-latest
             target: x86_64-unknown-linux-musl
 
-          - build: macos
-            os: macos-latest
-            target: x86_64-apple-darwin
+          # - build: macos
+          #   os: macos-latest
+          #   target: x86_64-apple-darwin
+
+          - build: windows
+            os: ubuntu-latest
+            target: x86_64-pc-windows-gnu
 
     steps:
       - name: Checkout
@@ -71,8 +75,8 @@ jobs:
             echo "ASSET=$dirname.tar.gz" >> $GITHUB_ENV
           fi
 
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            ${{ env.ASSET }}
+      # - name: Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     files: |
+      #       ${{ env.ASSET }}
